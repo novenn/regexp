@@ -1,0 +1,25 @@
+---
+title: 用正则啊
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    {% inlinecss "base.css" %}
+    {% inlinecss "header.css" %}
+    {# {% inlinecss "footer.css" %} #}
+  </head>
+  <body>
+    {% include "header.njk" ignore missing %}
+    <main class="body">
+      <article class="container">
+        {{ content | safe }}
+      </article>
+      {% include "comment.njk" ignore missing %}
+    </main>
+    {# {% include "footer.njk" ignore missing %} #}
+  </body>
+</html>

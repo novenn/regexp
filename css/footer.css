@@ -1,0 +1,8 @@
+.footer {
+  flex-shrink: 0;
+  height: 48px;
+  font-size: 18px;
+  line-height: 48px;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
+}

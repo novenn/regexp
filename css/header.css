@@ -1,0 +1,8 @@
+.header {
+  height: 48px;
+  font-size: 18px;
+  line-height: 48px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+  font-weight: 600;
+}
