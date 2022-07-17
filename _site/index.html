@@ -111,6 +111,12 @@ pattern.test(&lt;div&gt;content&lt;/div&gt;); // true
 pattern.test(&lt;div&gt;content&lt;/a&gt;);   // false
 
 </code></pre>
+<h4>给电话加上横线分割，编程344格式</h4>
+<pre><code>const pattern = /(\d{3})(\d{4})(\d{4})/
+const number = &quot;138212613333&quot;
+const result = number.replace(pattern, &quot;$1-$2-$3&quot;);
+</code></pre>
+<p><em>分析：这里用到的是分组捕获，正常情况下，表达式中一个小括号就是一个分组捕获，捕获之后贮按分组的前后顺序将分组内容保存在<code>RegExp</code>对象的<code>$1</code>至<code>$9</code>属性中，可直接通过<code>RegExp.$1</code>读取分组内容。在本例中，<code>String.prototype.replace</code>的第一个参数支持正则表达式，因此可以直接在第二个参数中使用简写的<code>$n</code>方式引用分组内容。</em></p>
 
       </article>
       
