@@ -6,3 +6,12 @@
   flex-shrink: 0;
   font-weight: 600;
 }
+
+.header .container {
+  display: flex;
+  align-items: center;
+}
+
+.header img {
+  height: 32px;
+}

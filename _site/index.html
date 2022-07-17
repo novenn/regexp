@@ -4,14 +4,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <title>用正则啊</title>
     <style>body,html{margin:0;padding:0;font-family:"仿宋"}body{display:flex;flex-direction:column;height:100vh;overflow:hidden;font-size:16px}.body,.footer,.header{width:100%;display:flex;justify-content:center}.body{flex-grow:1;overflow:auto;flex-direction:column;align-items:center;justify-content:flex-start}.container{width:800px;display:block}pre code{display:block;font-size:12px;padding:8px;border:1px solid #eee;background-color:#f9f9f9;border-radius:4px;font-family:'Courier New',Courier,仿宋}code{display:inline;border:1px solid #eee;background-color:#f9f9f9;border-radius:2px;padding:0 4px;font-family:'Courier New',Courier,仿宋}em{font-size:14px}a{color:#000}table{width:100%;border-collapse:collapse}table thead{background-color:#f9f9f9;border:1px solid #eee}table th{padding:8px 0}table td{border:1px solid #eee;font-size:14px;padding:4px}</style>
-    <style>.header{height:48px;font-size:18px;line-height:48px;border-bottom:1px solid #eee;flex-shrink:0;font-weight:600}</style>
+    <style>.header{height:48px;font-size:18px;line-height:48px;border-bottom:1px solid #eee;flex-shrink:0;font-weight:600}.header .container{display:flex;align-items:center}.header img{height:32px}</style>
     
   </head>
   <body>
     <header class="header">
-  <main class="container">搞什么搞，用正则啊</main>
+  <main class="container">
+  <img src="/images/favicon.png" />&nbsp;搞什么搞，用正则啊
+  </main>
 </header>
     <main class="body">
       <article class="container">
@@ -113,10 +116,16 @@ pattern.test(&lt;div&gt;content&lt;/a&gt;);   // false
 </code></pre>
 <h4>给电话号码加上横线分割，格式化为xxx-xxxx-xxxx格式</h4>
 <pre><code>const pattern = /(\d{3})(\d{4})(\d{4})/
-const number = &quot;13821261333&quot;
-const result = number.replace(pattern, &quot;$1-$2-$3&quot;); // &quot;138-2126-1333&quot;
+const number  = &quot;13821261333&quot;
+const result  = number.replace(pattern, &quot;$1-$2-$3&quot;); // &quot;138-2126-1333&quot;
 </code></pre>
 <p><em>分析：这里用到的是分组捕获，正常情况下，表达式中一个小括号就是一个分组捕获，捕获之后贮按分组的前后顺序将分组内容保存在<code>RegExp</code>对象的<code>$1</code>至<code>$9</code>属性中，可直接通过<code>RegExp.$1</code>读取分组内容。在本例中，<code>String.prototype.replace</code>的第一个参数支持正则表达式，因此可以直接在第二个参数中使用简写的<code>$n</code>方式引用分组内容。</em></p>
+<h4>格式化日期为YYYY/MM/DD格式</h4>
+<pre><code>const pattern = /(?&lt;=\/)(\d(\/|$))/g
+const date    = (new Date()).toLocaleDateString(); // &quot;2022/7/1&quot;
+const result  = date.replace(pattern, &quot;0$1&quot;); // &quot;2022/07/01&quot;
+</code></pre>
+<p><em>分析：本例中，需求是当月和日是单个数时，在月和日前面补<code>0</code>，当月和日是两位数则不管。使用负向肯定预查<code>(?&lt;=\/)</code>限制数字前面必须是<code>/</code>，且数字<code>\d</code>只会连续出现一次，同时数字后面必须跟着反斜杠<code>/</code>或者字符串结尾<code>$</code>。这样的话则不会匹配到<code>2022/</code>中的<code>2/</code>，只会匹配到月<code>7/</code>和日<code>1</code>，因为<code>2/</code>前面不符合预查条件<code>(?&lt;=\/)</code>，而月<code>7/</code>和日<code>1</code>符合预查条件。当匹配到满足子表达式<code>(\d(\/|$)</code>的字符后，说明该位置只有单个数字，直接在匹配到的字符串之前加<code>0$1</code>，替换掉元字符即可。</em></p>
 
       </article>
       

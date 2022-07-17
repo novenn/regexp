@@ -2,6 +2,7 @@
 const CleanCSS = require('clean-css');
 
 module.exports = function (eleventyConfig) {
+  eleventyConfig.addPassthroughCopy('images');
   /**
    * Bundle, minify, and inline a CSS file. Path is relative to ./site/css/.
    *
