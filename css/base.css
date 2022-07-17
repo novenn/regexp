@@ -39,7 +39,7 @@ pre code {
   border: 1px solid #eee;
   background-color: #f9f9f9;
   border-radius: 4px;
-  font-family:'Courier New', Courier, monospace;
+  font-family:'Courier New', Courier, 仿宋;
 }
 
 code {
@@ -48,7 +48,7 @@ code {
   background-color: #f9f9f9;
   border-radius: 2px;
   padding: 0 4px;
-  font-family:'Courier New', Courier, monospace;
+  font-family:'Courier New', Courier, 仿宋;
 }
 
 em {
@@ -57,4 +57,24 @@ em {
 
 a {
   color: black;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+}
+
+table th {
+  padding: 8px 0;
+}
+
+table td {
+  border: 1px solid #eee;
+  font-size: 14px;
+  padding: 4px;
 }
