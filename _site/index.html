@@ -126,6 +126,12 @@ const date    = (new Date()).toLocaleDateString(); // &quot;2022/7/1&quot;
 const result  = date.replace(pattern, &quot;0$1&quot;); // &quot;2022/07/01&quot;
 </code></pre>
 <p><em>分析：本例中，需求是当月和日是单个数时，在月和日前面补<code>0</code>，当月和日是两位数则不管。使用负向肯定预查<code>(?&lt;=\/)</code>限制数字前面必须是<code>/</code>，且数字<code>\d</code>只会连续出现一次，同时数字后面必须跟着反斜杠<code>/</code>或者字符串结尾<code>$</code>。这样的话则不会匹配到<code>2022/</code>中的<code>2/</code>，只会匹配到月<code>7/</code>和日<code>1</code>，因为<code>2/</code>前面不符合预查条件<code>(?&lt;=\/)</code>，而月<code>7/</code>和日<code>1</code>符合预查条件。当匹配到满足子表达式<code>(\d(\/|$)</code>的字符后，说明该位置只有单个数字，直接在匹配到的字符串之前加<code>0$1</code>，替换掉元字符即可。</em></p>
+<h4>使用千分位分隔符分割数字</h4>
+<pre><code>const pattern = /(?=(?!^)(\d{3})+$)/g
+
+&quot;123345&quot;.replace(pattern, &quot;,&quot;); // &quot;123,456&quot;
+&quot;12345678&quot;.replace(pattern, &quot;,&quot;); // &quot;12,345,678&quot;
+</code></pre>
 
       </article>
       
