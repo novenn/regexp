@@ -126,12 +126,28 @@ const date    = (new Date()).toLocaleDateString(); // &quot;2022/7/1&quot;
 const result  = date.replace(pattern, &quot;0$1&quot;); // &quot;2022/07/01&quot;
 </code></pre>
 <p><em>分析：本例中，需求是当月和日是单个数时，在月和日前面补<code>0</code>，当月和日是两位数则不管。使用负向肯定预查<code>(?&lt;=\/)</code>限制数字前面必须是<code>/</code>，且数字<code>\d</code>只会连续出现一次，同时数字后面必须跟着反斜杠<code>/</code>或者字符串结尾<code>$</code>。这样的话则不会匹配到<code>2022/</code>中的<code>2/</code>，只会匹配到月<code>7/</code>和日<code>1</code>，因为<code>2/</code>前面不符合预查条件<code>(?&lt;=\/)</code>，而月<code>7/</code>和日<code>1</code>符合预查条件。当匹配到满足子表达式<code>(\d(\/|$)</code>的字符后，说明该位置只有单个数字，直接在匹配到的字符串之前加<code>0$1</code>，替换掉元字符即可。</em></p>
-<h4>使用千分位分隔符分割数字</h4>
-<pre><code>const pattern = /(?=(?!^)(\d{3})+$)/g
+<h4>使用千分位分隔符分割数字<a id="split-number"></a></h4>
+<pre><code>const pattern = /(?!^)(?:)(?=(\d{3})+$)/g
 
 &quot;123345&quot;.replace(pattern, &quot;,&quot;); // &quot;123,456&quot;
 &quot;12345678&quot;.replace(pattern, &quot;,&quot;); // &quot;12,345,678&quot;
 </code></pre>
+<p><em>分析：<strong>一定要记住，正则表达式不仅能够匹配字符，还能匹配位置</strong>。使用正则表达式匹配位置，是解决这个问题的基础。正则表达式能够匹配的位置有：起始位置<code>^</code>,终止位置<code>$</code>,单词边界<code>\b</code>,非单词边界<code>\B</code>,任何边界<code>(?:)</code>等。</em><br />
+<em>比如： 代码 <code>&quot;hello world&quot;.replace(/(?:)/g, &quot;,&quot;)</code> 的结果为 <code>,h,e,l,l,o, ,w,o,r,l,d,</code>, 就是将原字符的任意位置替换为<code>,</code>。</em><br />
+<em>本例的需求可以翻译成，在字符串中找到所有满足如下条件的位置，然后将其替换成<code>,</code>:</em></p>
+<ul>
+<li><em>该位置到字符串结尾的所有字符个数是3的倍数</em></li>
+<li><em>该位置的前面不能是字符串起始位置</em><br /></li>
+</ul>
+<p><em>经过以下几步可以得到目标正则表达式，同时使用到<a href="#password">预查</a>的知识：</em></p>
+<ul>
+<li><em>匹配一个任意位置： <code>/(?:)/</code></em></li>
+<li><em>匹配一个后面有3个数字的位置：<code>/(?:)(?=\d{3})/</code></em></li>
+<li><em>匹配一个后面有3个数字就到字符串结尾的位置：<code>/(?:)(?=\d{3}$)/</code></em></li>
+<li><em>匹配一个后面有3n(n &gt; 0)个数字就到字符串结束的位置：<code>/(?:)(?=(\d{3})+$)/</code></em></li>
+<li><em>匹配所有后面有3n(n &gt; 0)个数字就到字符串结束的位置：<code>/(?:)(?=(\d{3})+$)/g</code></em></li>
+<li><em>匹配所有后面有3n(n &gt; 0)个数字就到字符串结束且其前面不是字符串开头的位置：<code>/(?!^)(?:)(?=(\d{3})+$)/g</code></em></li>
+</ul>
 
       </article>
       
